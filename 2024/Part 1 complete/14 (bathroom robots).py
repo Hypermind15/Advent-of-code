@@ -1,4 +1,4 @@
-import os, math
+import os, math, time
 
 class Robot:
     def __init__(self, position, velocity):
@@ -42,6 +42,27 @@ def CountQuadrants(robots, gridSize):
     
     return quadrants
 
+def OutputRobots(robots, gridSize):
+    grid = [["." for i in range(gridSize[0])] for j in range(gridSize[1])]
+
+    for robot in robots:
+        #grid[robot.position[1]][robot.position[0]] = str(int(grid[robot.position[1]][robot.position[0]]) + 1)
+        grid[robot.position[1]][robot.position[0]] = "1"
+
+    return grid
+
+def IsSymmetrical(grid):
+    numAsymmetries = 0
+    for row in grid:
+        for i in range(math.floor(len(grid[0]) / 2)):
+            if row[i] != row[-(i + 1)]:
+                numAsymmetries += 1
+            if numAsymmetries > 300:
+                return False
+    
+    return True
+
+
 
 #Main
 
@@ -61,10 +82,25 @@ data.close()
 
 gridSize = (101, 103)
 
-numTicks = 100
+numTicks = 10000000
 for tickNum in range(numTicks):
     for robot in robots:
         robot.updatePos(gridSize)
+
+    grid = OutputRobots(robots, gridSize)
+    if IsSymmetrical(grid):
+        print(f"t = {tickNum}")
+
+        grid = OutputRobots(robots, gridSize)
+        print(*("".join(line) for line in grid), sep="\n")
+
+        print()
+        print()
+        print()
+        print()
+
+        time.sleep(0.2)
+
 
 safetyFactor = math.prod(CountQuadrants(robots, gridSize))
 

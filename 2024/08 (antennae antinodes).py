@@ -21,6 +21,8 @@ for line in list(enumerate(dataLines)):
 
 numAntinodeLocations = 0
 
+dataLinesCopy = dataLines.copy()
+
 for frequency in antennae.keys():
     print(frequency, antennae[frequency])
     if len(antennae[frequency]) > 1:
@@ -51,11 +53,14 @@ for frequency in antennae.keys():
                         print(squareDistance1, squareDistance2)
 
                         if (squareDistance1 == 4 * squareDistance2) or (4 * squareDistance1 == squareDistance2):
-                            if dataLines[y][x] not in [frequency, "#"]:
+                            print(frequency)
+                            if dataLinesCopy[y][x] != "frequency" and dataLines[y][x] != "#":
                                 dataLines[y] = dataLines[y][:x] + "#" + dataLines[y][(x + 1):]
 
                                 numAntinodeLocations += 1
                     
 print(*dataLines, sep="\n")
+print()
+print(*dataLinesCopy, sep="\n")
 
 print(f"{numAntinodeLocations=}")
