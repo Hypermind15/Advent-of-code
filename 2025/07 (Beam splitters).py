@@ -14,6 +14,7 @@ data = open(f"{directory}\\07 data.dat", "r")
 
 lines = [line.rstrip("\n") for line in data.readlines()]
 data.close()
+
 beamCols = {lines[0].find("S") : 1}
 
 numSplits = 0
